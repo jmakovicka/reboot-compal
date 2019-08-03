@@ -3,6 +3,7 @@
 import subprocess
 import sys
 import argparse
+import errno
 
 from urllib import request
 
@@ -42,7 +43,12 @@ opener = request.build_opener(handler)
 
 url = 'http://' + args.router_ip
 
-r = opener.open(url + '/common_page/login.html')
+try:
+    r = opener.open(url + '/common_page/login.html')
+except OSError as e:
+    if e.errno == errno.ENETUNREACH:
+        sys.exit(1)
+
 cd1 = cookies(r)
 
 req2 = request.Request(url + '/xml/setter.xml',

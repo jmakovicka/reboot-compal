@@ -48,6 +48,8 @@ try:
 except OSError as e:
     if e.errno == errno.ENETUNREACH:
         sys.exit(1)
+    else:
+        raise
 
 cd1 = cookies(r)
 

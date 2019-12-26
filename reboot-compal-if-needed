@@ -6,6 +6,8 @@ import argparse
 import errno
 
 from urllib import request
+from urllib.error import URLError
+
 
 def cookies(r):
     h = r.getheader('Set-Cookie')
@@ -54,8 +56,8 @@ url = 'http://' + args.router_ip
 
 try:
     r = opener.open(url + '/common_page/login.html')
-except OSError as e:
-    if e.errno == errno.ENETUNREACH:
+except URLError as e:
+    if e.errno in [errno.ENETUNREACH, errno.EHOSTUNREACH]:
         sys.exit(1)
     else:
         raise

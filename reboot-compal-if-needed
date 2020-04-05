@@ -57,7 +57,7 @@ url = 'http://' + args.router_ip
 try:
     r = opener.open(url + '/common_page/login.html')
 except URLError as e:
-    if e.errno in [errno.ENETUNREACH, errno.EHOSTUNREACH]:
+    if e.errno in [errno.ENETUNREACH, errno.EHOSTUNREACH, errno.ECONNREFUSED]:
         sys.exit(1)
     else:
         raise
